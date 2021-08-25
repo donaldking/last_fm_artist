@@ -1,13 +1,14 @@
+import 'package:last_artist/Architecture/ApplicationLayer/Models/Abstract/TSAArtistModel.dart';
 import 'package:last_artist/Architecture/DataAccessLayer/Abstract/TSAArtistDataAccess.dart';
-import 'package:last_artist/Architecture/PersistenceLayer/Abstract/TSABasePersistence.dart';
-import 'package:last_artist/Architecture/PersistenceLayer/TSListPersistence.dart';
+import 'package:last_artist/Architecture/PersistenceLayer/Abstract/TSAArtistListPersistence.dart';
+import 'package:last_artist/Architecture/PersistenceLayer/TSArtistListPersistence.dart';
 
 class TSArtistDataAccess implements TSAArtistDataAccess {
   @override
-  TSABasePersistence persistence;
+  TSAArtistListPersistence persistence;
 
   /// Default instance used by factory method
-  static final TSArtistDataAccess _instance = TSArtistDataAccess(persistence: TSListPersistence());
+  static final TSArtistDataAccess _instance = TSArtistDataAccess(persistence: TSArtistListPersistence());
 
   /// Init
   TSArtistDataAccess({required this.persistence});
@@ -18,38 +19,32 @@ class TSArtistDataAccess implements TSAArtistDataAccess {
   }
 
   @override
-  create(entity) {
-    // TODO: implement create
-    throw UnimplementedError();
+  Future<void> create(entity) async {
+    await persistence.create(entity);
   }
 
   @override
-  delete(entity) {
-    // TODO: implement delete
-    throw UnimplementedError();
+  Future<void> delete(entity) async {
+    await persistence.delete(entity);
   }
 
   @override
-  deleteAll() {
-    // TODO: implement deleteAll
-    throw UnimplementedError();
+  Future<void> deleteAll() async {
+    await persistence.deleteAll();
   }
 
   @override
-  read(entity) {
-    // TODO: implement read
-    throw UnimplementedError();
+  Future<TSAArtistModel?> read(entity) async {
+    return await persistence.read(entity);
   }
 
   @override
-  readAll() {
-    // TODO: implement readAll
-    throw UnimplementedError();
+  Future<List<TSAArtistModel>?> readAll() async {
+    return await persistence.readAll();
   }
 
   @override
-  update(entity) {
-    // TODO: implement update
-    throw UnimplementedError();
+  Future<void> update(entity) async {
+    await persistence.update(entity);
   }
 }
