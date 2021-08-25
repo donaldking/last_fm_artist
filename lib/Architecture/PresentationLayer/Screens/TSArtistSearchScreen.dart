@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:last_artist/Architecture/WebserviceLayer/Domain/TSArtistMatchesDomain.dart';
+import 'package:last_artist/Architecture/WebserviceLayer/Domain/TSArtistDomain.dart';
 import 'package:last_artist/Architecture/WebserviceLayer/Generic/TSWebservice.dart';
 import 'package:last_artist/Architecture/WebserviceLayer/Resources/TSArtistSearchResource.dart';
 import 'package:last_artist/Architecture/WebserviceLayer/TSWebserviceLayerConstants.dart';

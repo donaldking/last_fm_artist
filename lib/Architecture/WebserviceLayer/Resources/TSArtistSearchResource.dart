@@ -19,7 +19,7 @@ class TSArtistSearchResource implements TSAResource {
   @override
   Future parseData(data) async {
     final json = jsonDecode(data);
-    final results = json["results"];
+    final results = json["results"]["artistmatches"];
     TSArtistMatchesDomain artistMatchesDomain = TSArtistMatchesDomain.fromMap(results);
     return artistMatchesDomain.artistList;
   }

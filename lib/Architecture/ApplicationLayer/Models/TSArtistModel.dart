@@ -1,7 +1,7 @@
 import 'package:last_artist/Architecture/ApplicationLayer/Models/Abstract/TSAArtistImageModel.dart';
 import 'package:last_artist/Architecture/ApplicationLayer/Models/Abstract/TSAArtistModel.dart';
 import 'package:last_artist/Architecture/ApplicationLayer/Models/TSArtistImageModel.dart';
-import 'package:last_artist/Architecture/WebserviceLayer/Domain/TSArtistMatchesDomain.dart';
+import 'package:last_artist/Architecture/WebserviceLayer/Domain/TSArtistDomain.dart';
 
 class TSArtistModel implements TSAArtistModel {
   @override
