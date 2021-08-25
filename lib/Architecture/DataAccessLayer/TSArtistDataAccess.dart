@@ -1,7 +1,9 @@
 import 'package:last_artist/Architecture/ApplicationLayer/Models/Abstract/TSAArtistModel.dart';
+import 'package:last_artist/Architecture/ApplicationLayer/Models/TSArtistModel.dart';
 import 'package:last_artist/Architecture/DataAccessLayer/Abstract/TSAArtistDataAccess.dart';
 import 'package:last_artist/Architecture/PersistenceLayer/Abstract/TSAArtistListPersistence.dart';
 import 'package:last_artist/Architecture/PersistenceLayer/TSArtistListPersistence.dart';
+import 'package:last_artist/Architecture/WebserviceLayer/Domain/TSArtistDomain.dart';
 
 class TSArtistDataAccess implements TSAArtistDataAccess {
   @override
@@ -35,12 +37,20 @@ class TSArtistDataAccess implements TSAArtistDataAccess {
 
   @override
   Future<TSAArtistModel?> read(entity) async {
-    return await persistence.read(entity);
+    TSArtistDomain? domain = await persistence.read(entity);
+    if (domain != null)
+      return TSArtistModel.fromDomain(domain: domain);
+    else
+      return null;
   }
 
   @override
   Future<List<TSAArtistModel>?> readAll() async {
-    return await persistence.readAll();
+    List<TSArtistDomain>? domain = await persistence.readAll();
+    if (domain != null)
+      return domain.map((e) => TSArtistModel.fromDomain(domain: e)).toList();
+    else
+      return null;
   }
 
   @override

@@ -1,12 +1,12 @@
-import 'package:last_artist/Architecture/ApplicationLayer/Models/Abstract/TSAArtistModel.dart';
 import 'package:last_artist/Architecture/PersistenceLayer/Abstract/TSAArtistListPersistence.dart';
+import 'package:last_artist/Architecture/WebserviceLayer/Domain/TSArtistDomain.dart';
 import 'package:last_artist/Support/Error/TSError.dart';
 
 class TSArtistListPersistence implements TSAArtistListPersistence {
-  List<TSAArtistModel> _store = List.empty(growable: true);
+  List<TSArtistDomain> _store = List.empty(growable: true);
 
   @override
-  Future<void> create(TSAArtistModel entity) async {
+  Future<void> create(TSArtistDomain entity) async {
     try {
       if (!_store.contains(entity)) _store.add(entity);
     } catch (error) {
@@ -44,7 +44,7 @@ class TSArtistListPersistence implements TSAArtistListPersistence {
   }
 
   @override
-  Future<TSAArtistModel?> read(mbid) async {
+  Future<TSArtistDomain?> read(mbid) async {
     try {
       return _store.firstWhere(
         (element) => element.mbid == mbid,
@@ -58,7 +58,7 @@ class TSArtistListPersistence implements TSAArtistListPersistence {
   }
 
   @override
-  Future<List<TSAArtistModel>?> readAll() async {
+  Future<List<TSArtistDomain>?> readAll() async {
     try {
       _store.sort((a, b) => a.mbid?.compareTo(b.mbid ?? "") ?? 0);
       return _store;
