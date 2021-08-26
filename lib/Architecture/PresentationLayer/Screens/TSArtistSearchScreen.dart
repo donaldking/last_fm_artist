@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:last_artist/Architecture/PresentationLayer/Bloc/TSArtistBloc.dart';
 import 'package:last_artist/Architecture/WebserviceLayer/Domain/TSArtistDomain.dart';
 import 'package:last_artist/Architecture/WebserviceLayer/Generic/TSWebservice.dart';
 import 'package:last_artist/Architecture/WebserviceLayer/Resources/TSArtistSearchResource.dart';
@@ -12,19 +13,24 @@ class TSArtistSearchScreen extends StatefulWidget {
 }
 
 class _TSArtistSearchScreenState extends State<TSArtistSearchScreen> {
-  /// TODO: Move to Bloc
-  Future searchArtist() async {
-    TSArtistSearchResource resource = TSArtistSearchResource(path: kArtistSearchEndpoint);
-    Map<String, dynamic> params = {"artist": "Toni"};
-    List<TSArtistDomain>? artistList = await TSWebservice().get(resource: resource, params: params);
-    debugPrint("Artist List: ${artistList?.length}");
+  TSArtistBloc _bloc = TSArtistBloc.defaultArtistBloc();
+
+  Future searchArtist({required String searchTerm}) async {
+    /// Call this when search button is pressed
+    _bloc.searchTermSink.add(searchTerm);
   }
 
   @override
   void initState() {
     /// TODO: Remove this
-    searchArtist();
+    searchArtist(searchTerm: "Burna boy");
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    _bloc.dispose();
+    super.dispose();
   }
 
   @override
