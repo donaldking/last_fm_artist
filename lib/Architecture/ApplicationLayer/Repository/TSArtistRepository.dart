@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:last_artist/Architecture/ApplicationLayer/Models/Abstract/TSAArtistModel.dart';
 import 'package:last_artist/Architecture/ApplicationLayer/Models/TSArtistModel.dart';
 import 'package:last_artist/Architecture/ApplicationLayer/Repository/Abstract/TSAArtistRepository.dart';
