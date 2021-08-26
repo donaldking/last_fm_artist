@@ -6,9 +6,9 @@ class TSArtistListPersistence implements TSAArtistListPersistence {
   List<TSArtistDomain> _store = List.empty(growable: true);
 
   @override
-  Future<void> create(TSArtistDomain entity) async {
+  Future<void> create(TSArtistDomain domain) async {
     try {
-      if (!_store.contains(entity)) _store.add(entity);
+      if (!_store.contains(domain)) _store.add(domain);
     } catch (error) {
       throw TSError(
         errorType: TSErrorType.persistence,
@@ -71,12 +71,12 @@ class TSArtistListPersistence implements TSAArtistListPersistence {
   }
 
   @override
-  Future<void> update(entity) async {
+  Future<void> update(TSArtistDomain domain) async {
     try {
       _store.removeWhere(
-        (element) => element.mbid == entity.mbid,
+        (element) => element.mbid == domain.mbid,
       );
-      _store.add(entity);
+      _store.add(domain);
     } catch (error) {
       throw TSError(
         errorType: TSErrorType.persistence,

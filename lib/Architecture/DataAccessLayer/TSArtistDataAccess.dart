@@ -21,13 +21,13 @@ class TSArtistDataAccess implements TSAArtistDataAccess {
   }
 
   @override
-  Future<void> create(entity) async {
-    await persistence.create(entity);
+  Future<void> create(domain) async {
+    await persistence.create(domain);
   }
 
   @override
-  Future<void> delete(entity) async {
-    await persistence.delete(entity);
+  Future<void> delete(id) async {
+    await persistence.delete(id);
   }
 
   @override
@@ -36,8 +36,8 @@ class TSArtistDataAccess implements TSAArtistDataAccess {
   }
 
   @override
-  Future<TSAArtistModel?> read(entity) async {
-    TSArtistDomain? domain = await persistence.read(entity);
+  Future<TSAArtistModel?> read(id) async {
+    TSArtistDomain? domain = await persistence.read(id);
     if (domain != null)
       return TSArtistModel.fromDomain(domain: domain);
     else
@@ -54,7 +54,7 @@ class TSArtistDataAccess implements TSAArtistDataAccess {
   }
 
   @override
-  Future<void> update(entity) async {
-    await persistence.update(entity);
+  Future<void> update(domain) async {
+    await persistence.update(domain);
   }
 }
