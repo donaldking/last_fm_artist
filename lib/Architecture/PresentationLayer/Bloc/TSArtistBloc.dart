@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:flutter/foundation.dart';
 import 'package:last_artist/Architecture/ApplicationLayer/Models/Abstract/TSAArtistModel.dart';
 import 'package:last_artist/Architecture/ApplicationLayer/UseCases/Abstract/TSAArtistUseCase.dart';
 import 'package:last_artist/Architecture/ApplicationLayer/UseCases/TSGetArtistInfoUseCase.dart';
@@ -11,6 +10,7 @@ class TSArtistBloc implements TSABloc {
   /// Stream Controller
   final StreamController<List<TSAArtistModel>> _artistStreamController = StreamController<List<TSAArtistModel>>();
   final StreamController<String> _searchTermStreamController = StreamController<String>();
+  final StreamController<TSAArtistModel> _getArtistInfoStreamController = StreamController<TSAArtistModel>();
 
   /// Stream
   Stream<List<TSAArtistModel>> get artistStream => _artistStreamController.stream;
@@ -18,8 +18,10 @@ class TSArtistBloc implements TSABloc {
   /// Sink
   Sink<String> get searchTermSink => _searchTermStreamController.sink;
 
+  Sink<TSAArtistModel> get getArtistInfoSink => _getArtistInfoStreamController.sink;
+
   /// Stream subscriptions
-  StreamSubscription? _searchTermStreamSubscription;
+  StreamSubscription? _searchTermStreamSubscription, _getArtistInfoStreamSubscription;
 
   /// Use Cases
   TSAArtistUseCase _searchUseCase;
@@ -49,22 +51,27 @@ class TSArtistBloc implements TSABloc {
         _searchForArtist(searchTerm: searchTerm);
       }
     });
+    _getArtistInfoStreamSubscription = _getArtistInfoStreamController.stream.listen((TSAArtistModel artist) {
+      _getArtistInfo(artist: artist);
+    });
   }
 
   void _searchForArtist({required String searchTerm}) async {
     try {
       List<TSAArtistModel>? result = await (_searchUseCase as TSSearchArtistUseCase).searchArtist(artistName: searchTerm);
-      debugPrint("Artist List: ${result?.first.name}");
+      if (result != null) {
+        _artistStreamController.add(result);
+      }
     } catch (error) {
-      debugPrint("Error searching");
+      _artistStreamController.addError(error.toString());
     }
   }
 
-  void _getArtistInfo({required String mbid}) async {
+  void _getArtistInfo({required TSAArtistModel artist}) async {
     try {
-      (_getInfoUseCase as TSGetArtistInfoUseCase).getArtistInfo(mbid: mbid);
+      (_getInfoUseCase as TSGetArtistInfoUseCase).getArtistInfo(artist: artist);
     } catch (error) {
-      debugPrint("Error getting details");
+      _artistStreamController.addError(error.toString());
     }
   }
 
@@ -73,5 +80,7 @@ class TSArtistBloc implements TSABloc {
     _artistStreamController.close();
     _searchTermStreamController.close();
     _searchTermStreamSubscription?.cancel();
+    _getArtistInfoStreamController.close();
+    _getArtistInfoStreamSubscription?.cancel();
   }
 }

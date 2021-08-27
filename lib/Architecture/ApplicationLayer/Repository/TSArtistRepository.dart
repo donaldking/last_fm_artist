@@ -29,9 +29,9 @@ class TSArtistRepository implements TSAArtistRepository {
   }
 
   @override
-  Future<TSAArtistModel?> getArtistInfo({required String mbid}) async {
+  Future<TSAArtistModel?> getArtistInfo({required TSAArtistModel artist}) async {
     /// TODO: Change this to get artist info
-    return await dataAccess.read(mbid);
+    return await dataAccess.read(artist.mbid);
   }
 
   @override

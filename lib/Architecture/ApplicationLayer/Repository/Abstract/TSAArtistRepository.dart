@@ -8,5 +8,5 @@ abstract class TSAArtistRepository {
 
   Future<List<TSAArtistModel>?> searchArtist({required String artistName});
 
-  Future<TSAArtistModel?> getArtistInfo({required String mbid});
+  Future<TSAArtistModel?> getArtistInfo({required TSAArtistModel artist});
 }

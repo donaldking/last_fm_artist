@@ -19,7 +19,7 @@ class TSGetArtistInfoUseCase implements TSAArtistUseCase {
     return _instance;
   }
 
-  Future<TSAArtistModel?> getArtistInfo({required String mbid}) async {
-    return await artistRepository.getArtistInfo(mbid: mbid);
+  Future<TSAArtistModel?> getArtistInfo({required TSAArtistModel artist}) async {
+    return await artistRepository.getArtistInfo(artist: artist);
   }
 }

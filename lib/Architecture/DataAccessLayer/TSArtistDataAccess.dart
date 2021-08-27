@@ -69,10 +69,20 @@ class TSArtistDataAccess implements TSAArtistDataAccess {
 
   @override
   Future<List<TSAArtistModel>?> searchArtist({required String artistName}) async {
+    /// TODO: Update storage model to map of {searchTem: List<TArtistDomain>}
+    /// so that we don't need to delete all, and we can simply re-fetch from local
+    /// if the same search term is entered again!
+
+    /// NOTE: Adding this to clear store first before network request.
+    /// Remove this when the above todo item is implemented
+    await deleteAll();
+
     TSArtistSearchResource resource = TSArtistSearchResource(path: kArtistSearchEndpoint);
     Map<String, dynamic> params = {"artist": artistName};
-    List<TSArtistDomain>? artistList = await TSWebservice().get(resource: resource, params: params);
+    List<TSArtistDomain> artistList = await TSWebservice().get(resource: resource, params: params);
 
-    return artistList?.map((e) => TSArtistModel.fromDomain(domain: e)).toList();
+    await Future.wait(artistList.map((e) => create(e)));
+
+    return readAll();
   }
 }
